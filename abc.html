@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peso Real</title>
+    <link rel="stylesheet" href="model.css">
+    <style>
+        :root{
+            background-color: rgb(245, 245, 245);
+        }
+        body {
+            margin-top: 120px;
+        }
+        h1{
+            font-weight: 900 !important;
+        }
+        button{
+            background-color: #363636 !important;
+            color : white !important;
+            border-width: 0px !important;
+            margin-top: 20px !important;
+            transition: 0.7s;
+            width: 70px !important;
+            margin: auto;
+        }
+        button:hover{
+            background-color: #222222 !important;
+            color: rgb(235, 235, 235) !important;
+            translate: 0px -2px;
+        }
+        input{
+            transition: 0.7s;
+        }
+        input:hover, input:focus{
+            background-color: rgb(247, 247, 247) !important;
+            translate: 0px -5px;
+        }
+        #inputs{
+            margin-top: 2%;
+            display: inline-flex;
+        }
+        @media (max-width: 768px) {
+            #ps1, #pc, #ps2{
+                margin-left: 5px !important;
+                width: 150px !important;
+            }
+            h1{
+                font-size: 2rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">Peso Real - Conversor</h1>
+    <div class="container" style="display: flex; flex-direction: column;">
+        <p>O Peso Real consegue dizer o preço de um produto proporcionalmente a sua medida, com o uso
+            de um conversor.</p>
+            <div id="inputs">
+            <input type="number" class="input" id="pc" placeholder="Preço">
+            <input type="number" class="input" id="ps1" placeholder="Quilogramas" style="margin-left: 10px;">
+            <input type="number" class="input" id="ps2" placeholder="Gramas" style="margin-left: 10px;">
+        </div>
+        <button class="button" onclick="enviar()">Enviar</button>
+    </div>
+
+    <script>
+        const preço = document.getElementById('pc');
+        const kg = document.getElementById('ps1');
+        const g = document.getElementById('ps2');
+
+        function enviar() {
+            if (preço.length < 1 || kg.length < 1 || g.length < 1) {
+                alert("Preencha todos os campos!");
+            }
+            else {
+                transformação();
+            }
+        }
+
+        function transformação() {
+            let kgcnv = kg.value * 1000;
+            let valor = kgcnv / g.value;
+            let resultado = (preço.value / valor);
+            alert(resultado)
+            dialogo(resultado);
+        }
+
+        function dialogo(r) {
+            r = parseFloat(r).toFixed(2);
+            let index = String(r).indexOf(".");
+            let rint = parseInt(r);
+            if (index !== -1) {
+                let casas = String(r).length - index - 1;
+                let cnv = Math.pow(10, casas);
+
+                if (rint > 0) {
+                    alert(`O preço do produto por ${g.value} gramas é ${rint} rea${rint != 1 ? "is" : "l"} e ${parseInt((r - rint * cnv))} centavo${(r - rint) > 0.01 ? "s" : ""}.`);
+                }
+                else{
+                alert(r == 0.00?"Não passa nem de um centavo":`O preço do produto por ${g.value} gramas é ${parseInt( r * cnv )} centavo${r != 0.01 ? "s" : ""}.`);
+                }
+            }
+            else if(rint > 0){
+                alert(`O preco do produto por ${g.value} gramas é ${r} rea${r != 1 ? "is" : "l"}.`);
+            }
+        }
+
+    </script>
+</body>
+
+</html>
